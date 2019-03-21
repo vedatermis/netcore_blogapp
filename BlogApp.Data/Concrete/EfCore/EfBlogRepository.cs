@@ -27,6 +27,7 @@ namespace BlogApp.Data.Concrete.EfCore
         public void AddBlog(Blog entity)
         {
             _context.Blogs.Add(entity);
+            _context.SaveChanges();
         }
 
         public void UpdateBlog(Blog entity)
