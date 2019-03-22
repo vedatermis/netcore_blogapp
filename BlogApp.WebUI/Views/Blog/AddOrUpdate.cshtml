@@ -1,0 +1,43 @@
+﻿@model Blog
+@{
+    ViewData["Title"] = "AddOrUpdate";
+}
+
+<div class="container">
+    <h2>AddOrUpdate</h2>
+    <br />
+
+    <form asp-controller="Blog" asp-action="AddOrUpdate" method="post">
+        <input asp-for="Id" type="hidden" />
+
+        <div class="form-group">
+            <label asp-for="Title">Title</label>
+            <input asp-for="Title" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Body"></label>
+            <textarea asp-for="Body" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Image"></label>
+            <textarea asp-for="Image" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CategoryId"></label>
+            <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
+                <option disabled="disabled" selected="selected" value="0"> Select Category</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.Data.Concrete.EfCore
 {
-    public class EfCategoryRepository: ICategoryRepository
+    public class EfCategoryRepository : ICategoryRepository
     {
         private BlogContext _context;
 
@@ -27,6 +27,20 @@ namespace BlogApp.Data.Concrete.EfCore
         public void AddCategory(Category entity)
         {
             _context.Categories.Add(entity);
+            _context.SaveChanges();
+        }
+
+        public void SaveCategory(Category entity)
+        {
+            if (entity.Id == 0)
+            {
+                _context.Categories.Add(entity);
+            }
+            else
+            {
+                _context.Entry(entity).State = EntityState.Modified;
+            }
+
             _context.SaveChanges();
         }
 

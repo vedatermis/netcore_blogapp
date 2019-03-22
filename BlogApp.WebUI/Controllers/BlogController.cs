@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using BlogApp.Data.Abstract;
 using BlogApp.Entity;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,7 @@ namespace BlogApp.WebUI.Controllers
             return View();
         }
 
+        /* Kullanılmıyor
         [HttpPost]
         public IActionResult Create(Blog blog)
         {
@@ -63,5 +65,39 @@ namespace BlogApp.WebUI.Controllers
             ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "Id", "Name");
             return View(blog);
         }
+        */
+
+
+        public IActionResult AddOrUpdate(int? id)
+        {
+            ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "Id", "Name");
+
+            if (id == null)
+            {
+                return View(new Blog());
+            }
+            else
+            {
+                return View(_blogRepository.GetById((int)id));
+            }
+        }
+
+        [HttpPost]
+        public IActionResult AddOrUpdate(Blog blog)
+        {
+            if (ModelState.IsValid)
+            {
+                _blogRepository.SaveBlog(blog);
+                TempData["Message"] = $"{blog.Title} kayıt edildi.";
+                return RedirectToAction("List");
+            }
+            else
+            {
+                ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "Id", "Name");
+                return View(blog);
+            }
+            
+        }
+           
     }
 }

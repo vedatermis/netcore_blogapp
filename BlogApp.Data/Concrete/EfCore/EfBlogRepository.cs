@@ -1,7 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using BlogApp.Data.Abstract;
 using BlogApp.Entity;
-using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.Data.Concrete.EfCore
 {
@@ -32,7 +32,37 @@ namespace BlogApp.Data.Concrete.EfCore
 
         public void UpdateBlog(Blog entity)
         {
-            _context.Entry(entity).State = EntityState.Modified;
+            var blog = GetById(entity.Id);
+            if (blog != null)
+            {
+                blog.Title = entity.Title;
+                blog.Description = entity.Description;
+                blog.CategoryId = entity.CategoryId;
+                blog.Image = entity.Image;
+
+                _context.SaveChanges();
+            }
+        }
+
+        public void SaveBlog(Blog entity)
+        {
+            if (entity.Id == 0)
+            {
+                entity.Date = DateTime.Now;
+                _context.Blogs.Add(entity);
+            }
+            else
+            {
+                var blog = GetById(entity.Id);
+                if (blog != null)
+                {
+                    blog.Title = entity.Title;
+                    blog.Description = entity.Description;
+                    blog.CategoryId = entity.CategoryId;
+                    blog.Image = entity.Image;
+                }
+            }
+
             _context.SaveChanges();
         }
 

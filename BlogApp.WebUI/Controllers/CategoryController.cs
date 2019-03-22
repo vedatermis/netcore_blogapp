@@ -18,6 +18,7 @@ namespace BlogApp.WebUI.Controllers
             return View(_categoryRepository.GetAll());
         }
 
+        /* Kullanılmıyor
         public IActionResult Create()
         {
             return View();
@@ -32,6 +33,36 @@ namespace BlogApp.WebUI.Controllers
                 return RedirectToAction("List");
             }
             return View(category);
+        }
+
+    */
+
+        public IActionResult AddOrUpdate(int? id)
+        {
+            if (id == null)
+            {
+                return View(new Category());
+            }
+            else
+            {
+                return View(_categoryRepository.GetById((int) id));
+            }
+        }
+
+        [HttpPost]
+        public IActionResult AddOrUpdate(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                _categoryRepository.SaveCategory(category);
+                TempData["Message"] = $"{category.Name} kayıt edildi.";
+
+                return RedirectToAction("List");
+            }
+            else
+            {
+                return View(category);
+            }
         }
     }
 }
