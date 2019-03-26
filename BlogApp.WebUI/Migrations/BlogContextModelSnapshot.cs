@@ -39,6 +39,8 @@ namespace BlogApp.WebUI.Migrations
 
                     b.Property<bool>("IsHome");
 
+                    b.Property<bool>("IsSlider");
+
                     b.Property<string>("Title");
 
                     b.HasKey("Id");

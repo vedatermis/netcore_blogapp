@@ -6,7 +6,11 @@
 
 <div class="container mt-3">
     <h2>Blog List</h2>
-    <br/>
+    <hr />
+    <div>
+        <a class="btn btn-primary" href="/Blog/Create">Create</a>
+    </div>
+    <hr />
     <div class="row">
         <div class="col-md-12">
             @if (Model.Any())
@@ -20,45 +24,56 @@
                             <th>Date</th>
                             <th>Is Approved</th>
                             <th>Is Home</th>
+                            <th>Is Slider</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>
-                                <img src="~/img/@item.Image" width="150" height="100" />
-                            </td>
-                            <td>@item.Title</td>
-                            <td>@item.Date</td>
-                            <td>
-                                @if (item.IsApproved)
-                                {
-                                    <i class="fa fa-check" aria-hidden="true"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                }
-                            </td>
-                            <td>
-                                @if (item.IsHome)
-                                {
-                                    <i class="fa fa-check" aria-hidden="true"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                }
-                            </td>
-                            <td>
-                                <a class="btn btn-primary btn-sm" asp-controller="Blog" asp-action="AddOrUpdate" asp-route-id="@item.Id">Details</a>
-                                <a class="btn btn-danger btn-sm" asp-controller="Blog" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                            </td>
-                        </tr>
-                    }
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>
+                                    <img src="~/img/@item.Image" width="150" height="100" />
+                                </td>
+                                <td>@item.Title</td>
+                                <td>@item.Date</td>
+                                <td>
+                                    @if (item.IsApproved)
+                                    {
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.IsHome)
+                                    {
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.IsSlider)
+                                    {
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    }
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" asp-controller="Blog" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                    <a class="btn btn-danger btn-sm" asp-controller="Blog" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             }

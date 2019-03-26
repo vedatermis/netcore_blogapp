@@ -1,16 +1,23 @@
 ﻿@model Blog
 @{
     ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section scripts{ 
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace("Body");
+    </script>
 }
 
 <div class="container">
-    <h2>Edit</h2>
+    <h2>Edit Blog</h2>
     <br />
 
-    <form asp-controller="Blog" asp-action="Edit" method="post">
+    <form asp-controller="Blog" asp-action="Edit" method="post" enctype="multipart/form-data">
         <input asp-for="Id" type="hidden" />
-        <input asp-for="IsApproved" type="hidden" />
-        <input asp-for="Date" type="hidden" />
+        <input asp-for="Image" type="hidden" />
 
         <div class="form-group">
             <label asp-for="Title">Title</label>
@@ -28,8 +35,29 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="Image"></label>
-            <textarea asp-for="Image" class="form-control"></textarea>
+            <img src="~/img/@Model.Image" width="120" />
+            <input type="file" name="file" id="file" class="form-control" />
+        </div>
+
+        <div class="form-check">
+            <label class="form-check-label">
+                <input asp-for="IsApproved" class="form-check-input" />
+                Is Approved
+            </label>
+        </div>
+
+        <div class="form-check">
+            <label class="form-check-label">
+                <input asp-for="IsHome" class="form-check-input" />
+                Is Home
+            </label>
+        </div>
+
+        <div class="form-check">
+            <label class="form-check-label">
+                <input asp-for="IsSlider" class="form-check-input" />
+                Is Slider
+            </label>
         </div>
 
         <div class="form-group">

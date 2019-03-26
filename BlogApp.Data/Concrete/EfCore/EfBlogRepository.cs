@@ -38,10 +38,11 @@ namespace BlogApp.Data.Concrete.EfCore
                 blog.Title = entity.Title;
                 blog.Description = entity.Description;
                 blog.CategoryId = entity.CategoryId;
+                blog.Body = entity.Body;
                 blog.Image = entity.Image;
                 blog.IsApproved = entity.IsApproved;
                 blog.IsHome = entity.IsHome;
-
+                blog.IsSlider = entity.IsSlider;
                 _context.SaveChanges();
             }
         }
@@ -60,10 +61,12 @@ namespace BlogApp.Data.Concrete.EfCore
                 {
                     blog.Title = entity.Title;
                     blog.Description = entity.Description;
+                    blog.Body = entity.Body;
                     blog.CategoryId = entity.CategoryId;
                     blog.Image = entity.Image;
                     blog.IsApproved = entity.IsApproved;
                     blog.IsHome = entity.IsHome;
+                    blog.IsSlider = entity.IsSlider;
                 }
             }
 

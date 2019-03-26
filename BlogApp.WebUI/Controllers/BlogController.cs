@@ -1,8 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using BlogApp.Data.Abstract;
 using BlogApp.Entity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -48,7 +51,6 @@ namespace BlogApp.WebUI.Controllers
             return View();
         }
 
-        /* Kullanılmıyor
         [HttpPost]
         public IActionResult Create(Blog blog)
         {
@@ -63,7 +65,7 @@ namespace BlogApp.WebUI.Controllers
             ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "Id", "Name");
             return View(blog);
         }
-
+        
         public IActionResult Edit(int id)
         {
             ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "Id", "Name");
@@ -71,10 +73,21 @@ namespace BlogApp.WebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Blog blog)
+        public async Task<IActionResult> Edit(Blog blog, IFormFile file)
         {
             if (ModelState.IsValid)
             {
+                if (file != null)
+                {
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", file.FileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                        blog.Image = file.FileName;
+                    }
+                }
+
                 _blogRepository.UpdateBlog(blog);
 
                 TempData["Message"] = $"{blog.Title} güncellendi.";
@@ -84,7 +97,6 @@ namespace BlogApp.WebUI.Controllers
             ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "Id", "Name");
             return View(blog);
         }
-        */
         
         public IActionResult AddOrUpdate(int? id)
         {

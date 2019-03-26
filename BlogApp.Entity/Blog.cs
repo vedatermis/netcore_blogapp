@@ -18,6 +18,7 @@ namespace BlogApp.Entity
         public bool IsApproved { get; set; }
 
         public bool IsHome { get; set; }
+        public bool IsSlider { get; set; }
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
