@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Blog>
+
+@if (Model.Any())
+{
+
+@foreach (var blog in Model)
+ {
+     <div class="card mb-3">
+         <h5 class="card-header">@blog.Title</h5>
+         <img src="~/img/@blog.Image" class="card-img-top" alt="Card image cap">
+         <div class="card-body">
+             <h5 class="card-title">@blog.Title</h5>
+             <p class="card-text">@blog.Description</p>
+             <a asp-controller="Blog" asp-action="Details" asp-route-id="@blog.Id" class="btn btn-primary">Blog Details</a>
+         </div>
+     </div>
+
+ }
+}
+else
+{
+    <div class="alert alert-warning">Kayıt Yok</div>
+}

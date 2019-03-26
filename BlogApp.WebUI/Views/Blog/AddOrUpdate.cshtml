@@ -1,6 +1,7 @@
 ﻿@model Blog
 @{
     ViewData["Title"] = "AddOrUpdate";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="container">
@@ -28,6 +29,20 @@
         <div class="form-group">
             <label asp-for="Image"></label>
             <textarea asp-for="Image" class="form-control"></textarea>
+        </div>
+        
+        <div class="form-check">
+            <label class="form-check-label">
+                <input asp-for="IsApproved" class="form-check-input" />
+                Is Approved
+            </label>            
+        </div>
+        
+        <div class="form-check">
+            <label class="form-check-label">
+                <input asp-for="IsHome" class="form-check-input"/>
+                Is Home
+            </label>            
         </div>
 
         <div class="form-group">

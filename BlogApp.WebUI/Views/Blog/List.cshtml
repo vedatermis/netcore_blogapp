@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Blog>
 @{
     ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="container mt-3">
@@ -18,6 +19,7 @@
                             <th>Title</th>
                             <th>Date</th>
                             <th>Is Approved</th>
+                            <th>Is Home</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -33,6 +35,16 @@
                             <td>@item.Date</td>
                             <td>
                                 @if (item.IsApproved)
+                                {
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                }
+                            </td>
+                            <td>
+                                @if (item.IsHome)
                                 {
                                     <i class="fa fa-check" aria-hidden="true"></i>
                                 }

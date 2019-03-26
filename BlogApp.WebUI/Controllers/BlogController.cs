@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using BlogApp.Data.Abstract;
 using BlogApp.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.WebUI.Controllers
 {
@@ -16,6 +18,23 @@ namespace BlogApp.WebUI.Controllers
         {
             _blogRepository = blogRepository;
             _categoryRepository = categoryRepository;
+        }
+
+        public IActionResult Index(int? id, string q)
+        {
+            var query = _blogRepository.GetAll().Where(x => x.IsApproved);
+
+            if (id != null)
+            {
+                query = query.Where(i => i.CategoryId == id);
+            }
+
+            if (!string.IsNullOrWhiteSpace(q))
+            {
+                query = query.Where(i => EF.Functions.Like(i.Title, $"%{ q }%") || EF.Functions.Like(i.Description, $"%{ q }%") || EF.Functions.Like(i.Body, $"%{ q }%"));
+            }
+
+            return View(query.OrderByDescending(i => i.Date));
         }
 
         public IActionResult List()
@@ -66,8 +85,7 @@ namespace BlogApp.WebUI.Controllers
             return View(blog);
         }
         */
-
-
+        
         public IActionResult AddOrUpdate(int? id)
         {
             ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "Id", "Name");
@@ -76,10 +94,8 @@ namespace BlogApp.WebUI.Controllers
             {
                 return View(new Blog());
             }
-            else
-            {
-                return View(_blogRepository.GetById((int)id));
-            }
+
+            return View(_blogRepository.GetById((int)id));
         }
 
         [HttpPost]
@@ -91,13 +107,29 @@ namespace BlogApp.WebUI.Controllers
                 TempData["Message"] = $"{blog.Title} kayıt edildi.";
                 return RedirectToAction("List");
             }
-            else
-            {
-                ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "Id", "Name");
-                return View(blog);
-            }
-            
+
+            ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "Id", "Name");
+            return View(blog);
         }
-           
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            return View(_blogRepository.GetById(id));
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            _blogRepository.DeleteBlog(id);
+            TempData["Message"] = $"{id} numaralı kayıt silindi.";
+            return RedirectToAction("List");
+
+        }
+
+        public IActionResult Details(int id)
+        {
+            return View(_blogRepository.GetById(id));
+        }
     }
 }
